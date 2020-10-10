@@ -58,6 +58,7 @@ echo PHP_EOL;
 
 print("#####q8#####".PHP_EOL);
 $programming_languages = ["php","ruby","python","javascript"];
+$programming_languages = array_map('ucfirst', $programming_languages);;
 $upper_case_programming_languages = array_map('strtoupper', $programming_languages);
   # 以下は変更しないで下さい
 print_r($programming_languages);
@@ -68,53 +69,87 @@ echo PHP_EOL;
 
 print("#####q9#####".PHP_EOL);
 $names = ["田中", "佐藤", "佐々木", "高橋"];
-
-  # 以下に回答を記載
-
+foreach ($names as $index => $name) {
+  $member_num = $index + 1;
+  $names[$index] = '会員No.' . $member_num . ' '. $name;
+}
+print_r($names);
 echo PHP_EOL;
 
 print("#####q10#####".PHP_EOL);
 $foods = ["いか","たこ","うに","しゃけ","うにぎり","うに軍艦","うに丼"];
-
-  # 以下に回答を記載
-
+foreach ($foods as $food) {
+  if (strpos($food,"うに") !== false) {
+    echo $food . ' : 好物です';
+    echo PHP_EOL;
+  } else {
+    echo $food . ' : まぁまぁ好きです';
+    echo PHP_EOL;
+  }
+}
 echo PHP_EOL;
 
 print("#####q11#####".PHP_EOL);
 $sports = ["サッカー", "バスケ", "野球", ["フットサル", "野球"], "水泳", "ハンドボール", ["卓球", "サッカー", "ボルダリング"]];
-
-  # 以下に回答を記載
-
+$display_array = [];
+$template = "No%d %s";
+echo "ユーザーの趣味一覧";
+echo PHP_EOL;
+foreach ($sports as $index => $sport_main) {
+  $rank_num = $index;
+  if (is_array($sport_main)) {
+    foreach ($sport_main as $sport_sub) {
+      if(!in_array($sport_sub, $display_array)) {
+        $rank_num++;
+        echo sprintf($template, $rank_num, $sport_sub);
+        echo PHP_EOL;
+        array_push($display_array, $sport_sub);
+      }
+    }
+  } elseif(!is_array($sport_main) && !in_array($sport_main, $display_array)) {
+      $rank_num++;
+      echo sprintf($template, $rank_num, $sport_main);
+      echo PHP_EOL;
+      array_push($display_array, $sport_main);
+  }
+}
 echo PHP_EOL;
 
 print("#####q12#####".PHP_EOL);
 $data = [ "user" => [ "name" => "satou", "age" => 33 ] ];
-
-  # 以下に回答を記載
-
+print_r($data["user"]["name"]);
 echo PHP_EOL;
 
 print("#####q13#####".PHP_EOL);
 $user_data = [ "name" => "神里", "age" => 31, "address" => "埼玉"];
 $update_data = [ "age" => 32, "address" => "沖縄" ];
-
-  # 以下に回答を記載
-
+$user_data = array_replace($user_data, $update_data);
+print_r($user_data);
 echo PHP_EOL;
 
 print("#####q14#####".PHP_EOL);
 $data = [ "name" => "satou", "age" => 33, "address" => "saitama", "hobby" => "soccer", "email" => "hoge@fuga.com" ];
-
-  # 以下に回答を記載
-
+$data_array = [];
+foreach ($data as $each_data) {
+  array_push($data_array, $each_data);
+}
+print_r($data_array);
 echo PHP_EOL;
 
 print("#####q15#####".PHP_EOL);
 $data1 = [ "name" => "saitou", "hobby" => "soccer", "age" => 33, "role" => "admin" ];
+find_age_key($data1);
 $data2 = [ "name" => "yamada", "hobby" => "baseball", "role" => "normal" ];
-
-  # 以下に回答を記載
-
+find_age_key($data2);
+function find_age_key($array) {
+  if (array_key_exists('age', $array)) {
+    echo 'OK';
+    echo PHP_EOL;
+  } else {
+    echo 'NG';
+    echo PHP_EOL;
+  }
+}
 echo PHP_EOL;
 
 print("#####q16#####".PHP_EOL);
@@ -124,8 +159,11 @@ $users = [
   [ "name" => "takahashi", "age" => 32 ],
   [ "name" => "nakamura", "age" => 41 ]
 ];
-
-  # 以下に回答を記載
+$template = "私の名前は%sです。年齢は%d歳です。";
+foreach ($users as $user) {
+  echo sprintf($template, $user['name'], $user['age']);
+  echo PHP_EOL;
+}
 
 echo PHP_EOL;
 
