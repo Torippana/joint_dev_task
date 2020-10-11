@@ -170,9 +170,23 @@ echo PHP_EOL;
 print("#####q17#####".PHP_EOL);
 class User
 {
+  private $name;
+  private $age;
+  private $gender;
 
-  # コードを追加
-
+  public function __construct($name, $age, $gender){
+      $this->name = $name;
+      $this->age = $age;
+      $this->gender = $gender;
+  }
+  public function info() {
+      echo "名前:".$this->name;
+      echo PHP_EOL;
+      echo "年齢:".$this->age;
+      echo PHP_EOL;
+      echo "性別:".$this->gender;
+      echo PHP_EOL;
+  }
 }
 
 $user1 = new User("神里",32,"男");
@@ -181,12 +195,32 @@ $user2 = new User("あじー",32,"男");
 $user1->info();
 print("-------------".PHP_EOL);
 $user2->info();
-
 echo PHP_EOL;
 
 print("#####q18#####".PHP_EOL);
 
-  # コードを追加
+  class Man {
+    const ADULT_AGE  = 20;
+    const TEMPLATE_1 = 'こんにちは，%sと申します。宜しくお願いいたします。';
+    const TEMPLATE_2 = 'はいさいまいど〜，%sです！！！';
+    private $name;
+    private $age;
+
+    public function __construct($name, $age) {
+      $this->name = $name;
+      $this->age = $age;
+    }
+
+    public function introduce() {
+      if ($this->age >= self::ADULT_AGE) {
+        echo sprintf(self::TEMPLATE_1, $this->name);
+        echo PHP_EOL;
+      } else {
+        echo sprintf(self::TEMPLATE_2, $this->name);
+        echo PHP_EOL;
+      }
+    }
+  }
 
 $man1 = new Man("あじー",32);
 $man2 = new Man("ゆたぼん",10);
@@ -200,7 +234,7 @@ print("#####q19#####".PHP_EOL);
 class Item{
   # 以下を修正して下さい
 
-  protected $name;
+  public $name;
 
   function __construct($book_name){
     $this->name = $book_name;
@@ -216,16 +250,58 @@ echo PHP_EOL;
 print("#####q20#####".PHP_EOL);
 class Human
 {
+  public $name;
+  public $age;
 
-  # コードを追加
-
+  public function __construct($name, $age) {
+    $this->name = $name;
+    $this->age = $age;
+  }
 }
 
 class Zoo
 {
+  protected $zoo_name;
+  protected $fee_array;
+  const TEMPLATE = "%sさんの入場料金は %d 円です。";
 
-  # コードを追加
-
+  public function __construct($zoo_name, $fee_array = []) {
+    $this->zoo_name = $zoo_name;
+    $this->fee_array = $fee_array;
+  }
+  public function info_entry_fee($human) {
+    // objectのプロパティにageとnameが存在するかチェック
+    if (is_object($human) && (property_exists($human,'age') && property_exists($human,'name'))) {
+      $fee_type = $this->check_human_fee_type($human->age);
+      // ageが年齢の区分に該当する & 年齢区分の配列に同名のキーが存在する
+      if ($fee_type !== '' && isset($this->fee_array[$fee_type])) {
+        echo sprintf(self::TEMPLATE, $human->name, $this->fee_array[$fee_type]);
+        echo PHP_EOL;
+      }
+    }
+  }
+  // ageから入園料区分を割り出す関数
+  public function check_human_fee_type($age) {
+    $type = '';
+    switch ($age) {
+      case $age > 0 && $age <= 5:
+        $type = 'infant';
+        break;
+      case $age > 5 && $age <= 12:
+        $type = 'children';
+        break;
+      case $age > 12 && $age <= 64:
+        $type = 'adult';
+        break;
+      case $age > 64 && $age <= 120:
+        $type = 'senior';
+        break;
+      default:
+        $type = '';
+        break;
+    }
+    return $type;
+  }
 }
 
 $zoo = new Zoo("旭山動物園",[ "infant" => 0, "children" => 400, "adult" => 800, "senior" => 500]);
