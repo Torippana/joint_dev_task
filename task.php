@@ -318,3 +318,31 @@ foreach($humans as $human){
 }
 
 echo PHP_EOL;
+
+print("#####q21#####".PHP_EOL);
+function fizzBuzz(int $num)
+{
+  $result = '';
+
+  if ($num % 3 === 0) {
+    $result .= 'Fizz';
+  }
+  if ($num % 5 === 0) {
+    $result .= 'Buzz';
+  }
+  if ($num % 7 === 0) {
+    $result .= 'Hoge';
+  }
+  if ($num % 11 === 0) {
+    $result .= 'Piyo';
+  }
+  if (
+    (($num % 3 !== 0) && ($num % 7 !== 0))
+    && (($num % 3 !== 0) && ($num % 5 !== 0))
+    && ($num % 11 !== 0)
+  ) {
+    $result = $num;
+  }
+  return $result;
+}
+echo implode(PHP_EOL, array_map('fizzBuzz', range(1,30)));
